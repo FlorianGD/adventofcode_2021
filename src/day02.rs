@@ -7,6 +7,23 @@ pub fn parse_input(input: &str) -> Vec<(String,u32)> {
     }).collect()
 }
 
+pub fn part2(input: &Vec<(String, u32)>) -> u32 {
+    let mut aim = 0;
+    let mut total = 0;
+    let mut depth =0;
+    for (x, y) in input.iter() {
+        if x == "forward" {
+            total += y;
+            depth += aim * y
+        } else if x == "down" {
+            aim += y
+        } else {
+            aim -= y
+        }
+    }
+    total * depth 
+}
+
 pub fn part1(input: &Vec<(String, u32)>) -> u32 {
     let mut total = 0;
     let mut depth =0;
@@ -22,6 +39,3 @@ pub fn part1(input: &Vec<(String, u32)>) -> u32 {
     total * depth
 }
 
-pub fn part2(input: &Vec<(&str, u32)>) -> u32 {
-    0
-}
