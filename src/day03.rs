@@ -38,25 +38,26 @@ pub fn part1(input: &Vec<Vec<u32>>) -> u32 {
 
 pub fn part2(input: &Vec<Vec<u32>>) -> u32 {
     let mut new_input = input.clone();
-    let mut positions = transpose(input.clone());
+    let mut positions;
     let mut idx = 0;
     while new_input.len() > 1 {
+        positions = transpose(new_input.clone());
         let counts = get_counts(&positions);
         let max = get_maxs(&counts[idx..counts.len()])[0];
         new_input = new_input.into_iter().filter(|x| x[idx] == max).collect();
-        positions = transpose(new_input.clone());
+        // println!("input: {:?}", &new_input);
+        // println!("posit: {:?}", &positions);
         idx += 1;
     }
     let max = vec_to_int(new_input[0].clone());
 
     new_input = input.clone();
-    positions = transpose(new_input.clone());
     idx = 0;
     while new_input.len() > 1 {
+        positions = transpose(new_input.clone());
         let counts = get_counts(&positions);
         let min = get_mins(&counts[idx..counts.len()])[0];
         new_input = new_input.into_iter().filter(|x| x[idx] == min).collect();
-        positions = transpose(new_input.clone());
         idx += 1;
     }
     let min = vec_to_int(new_input[0].clone());
