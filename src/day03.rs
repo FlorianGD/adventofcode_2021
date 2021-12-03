@@ -1,4 +1,4 @@
-use std::{collections::HashMap, vec};
+use std::collections::HashMap;
 
 pub fn parse_input(input: &str) -> Vec<Vec<u32>> {
     input
@@ -18,9 +18,9 @@ where
         .collect()
 }
 
-fn vec_to_int(vals: Vec<u8>) -> u32 {
+fn vec_to_int(vals: Vec<u32>) -> u32 {
     vals.iter().rev().enumerate().fold(0, |acc, (idx, val)| {
-        acc + 2_u32.pow(idx.try_into().unwrap()) * (*val as u32)
+        acc + 2_u32.pow(idx.try_into().unwrap()) * val
     })
 }
 
@@ -35,22 +35,20 @@ pub fn part1(input: &Vec<Vec<u32>>) -> u32 {
             })
         })
         .collect();
-    let maxs: Vec<u8> = counts
+    let maxs: Vec<u32> = counts
         .iter()
         .map(|hm| {
             hm.iter()
                 .max_by(|&(_k1, v1), &(_k2, v2)| v1.cmp(&v2))
-                .map(|(&k, _v)| *k as u8)
+                .map(|(&k, _v)| *k)
                 .expect("huho")
         })
         .collect();
 
-    let mins: Vec<u8> = maxs.iter().map(|x| 1 - x).collect();
+    let mins: Vec<u32> = maxs.iter().map(|x| 1 - x).collect();
     let maxs = vec_to_int(maxs);
     let mins = vec_to_int(mins);
 
-    println!("{:?}", maxs);
-    println!("{:?}", mins);
     maxs * mins
 }
 
