@@ -35,27 +35,24 @@ pub fn part1(input: &Vec<(Point, Point)>) -> usize {
     let mut map = HashMap::new();
     let horizontal_lines: Vec<&(Point, Point)> =
         input.iter().filter(|&(p1, p2)| p1.x == p2.x).collect();
-    println!("{:?}", horizontal_lines);
     for (p1, p2) in horizontal_lines {
         let y_min = (p1.min(p2)).y;
         let y_max = (p1.max(p2)).y;
         let x = p1.x;
-        // println!("x={}, y min={}, y max= {}", x, y_min, y_max);
-        for y in y_min..y_max {
-            *map.entry(Point { x, y }).or_insert(0) += 1;
+        for y in y_min..=y_max {
+            *map.entry((x, y)).or_insert(0) += 1;
         }
     }
-    println!("{:?}", map);
 
-    let vertical_lines = input.iter().filter(|&(p1, p2)| p1.y == p2.y);
+    let vertical_lines: Vec<&(Point, Point)> =
+        input.iter().filter(|&(p1, p2)| p1.y == p2.y).collect();
     for (p1, p2) in vertical_lines {
         let x_min = (p1.min(p2)).x;
         let x_max = (p1.max(p2)).x;
         let y = p1.y;
-        for x in x_min..x_max {
-            *map.entry(Point { x, y }).or_insert(0) += 1;
+        for x in x_min..=x_max {
+            *map.entry((x, y)).or_insert(0) += 1;
         }
     }
-    println!("{:?}", map);
     map.into_values().filter(|&v| v >= 2).count()
 }

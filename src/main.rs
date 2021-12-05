@@ -2,19 +2,19 @@ use adventofcode_2021::day05;
 use std::{fs, time::Instant};
 
 fn main() {
-    let input = "\
-0,9 -> 5,9
-8,0 -> 0,8
-9,4 -> 3,4
-2,2 -> 2,1
-7,0 -> 7,4
-6,4 -> 2,0
-0,9 -> 2,9
-3,4 -> 1,4
-0,0 -> 8,8
-5,5 -> 8,2
-";
-    // let input: String = fs::read_to_string("input/2021/day04.txt").unwrap();
+    //     let input = "\
+    // 0,9 -> 5,9
+    // 8,0 -> 0,8
+    // 9,4 -> 3,4
+    // 2,2 -> 2,1
+    // 7,0 -> 7,4
+    // 6,4 -> 2,0
+    // 0,9 -> 2,9
+    // 3,4 -> 1,4
+    // 0,0 -> 8,8
+    // 5,5 -> 8,2
+    // ";
+    let input: String = fs::read_to_string("input/2021/day05.txt").unwrap();
     // let mut now = Instant::now();
     let parsed = day05::parse_input(&input);
     // println!("{:?}", parsed);
