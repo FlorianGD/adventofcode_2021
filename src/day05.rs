@@ -21,6 +21,7 @@ impl FromStr for Point {
     }
 }
 
+#[aoc_generator(day5)]
 pub fn parse_input(input: &str) -> Vec<(Point, Point)> {
     input
         .lines()
@@ -31,6 +32,7 @@ pub fn parse_input(input: &str) -> Vec<(Point, Point)> {
         .collect()
 }
 
+#[aoc(day5, part1)]
 pub fn part1(input: &Vec<(Point, Point)>) -> usize {
     let mut map = HashMap::new();
     let horizontal_lines: Vec<&(Point, Point)> =
@@ -57,6 +59,7 @@ pub fn part1(input: &Vec<(Point, Point)>) -> usize {
     map.into_values().filter(|&v| v >= 2).count()
 }
 
+#[aoc(day5, part2)]
 pub fn part2(input: &Vec<(Point, Point)>) -> usize {
     let mut map = HashMap::new();
     let horizontal_lines: Vec<&(Point, Point)> =

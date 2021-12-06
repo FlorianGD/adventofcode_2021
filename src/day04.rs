@@ -68,6 +68,7 @@ fn rows_win_in(values: &[[u8; 5]; 5], draws: &[u8]) -> usize {
         .unwrap()
 }
 
+#[aoc_generator(day4)]
 pub fn parse_input(input: &str) -> (Vec<u8>, Vec<Board>) {
     let draws = input
         .lines()
@@ -85,6 +86,7 @@ pub fn parse_input(input: &str) -> (Vec<u8>, Vec<Board>) {
     (draws, boards)
 }
 
+#[aoc(day4, part1)]
 pub fn part1(input: &(Vec<u8>, Vec<Board>)) -> u32 {
     let (draws, boards) = input;
     let (idx_board, num_steps) = boards
@@ -96,6 +98,7 @@ pub fn part1(input: &(Vec<u8>, Vec<Board>)) -> u32 {
     boards[idx_board].score(&draws[..=num_steps])
 }
 
+#[aoc(day4, part2)]
 pub fn part2(input: &(Vec<u8>, Vec<Board>)) -> u32 {
     let (draws, boards) = input;
     let (idx_board, num_steps) = boards

@@ -1,5 +1,6 @@
 use std::collections::HashMap;
 
+#[aoc_generator(day3)]
 pub fn parse_input(input: &str) -> Vec<Vec<u32>> {
     input
         .lines()
@@ -24,6 +25,7 @@ fn vec_to_int(vals: Vec<u32>) -> u32 {
     })
 }
 
+#[aoc(day3, part1)]
 pub fn part1(input: &Vec<Vec<u32>>) -> u32 {
     let positions = transpose(input.clone());
     let counts = get_counts(&positions);
@@ -36,6 +38,7 @@ pub fn part1(input: &Vec<Vec<u32>>) -> u32 {
     maxs * mins
 }
 
+#[aoc(day3, part2)]
 pub fn part2(input: &Vec<Vec<u32>>) -> u32 {
     let mut new_input = input.clone();
     let mut positions;
