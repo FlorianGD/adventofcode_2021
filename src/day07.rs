@@ -12,3 +12,15 @@ pub fn part1(input: &Vec<i32>) -> i32 {
     let median = vec[vec.len() / 2];
     vec.iter().map(|crab| (crab - median).abs()).sum()
 }
+
+#[aoc(day7, part2)]
+pub fn part2(input: &Vec<i32>) -> i32 {
+    let total: i32 = input.iter().sum();
+    let len = input.len() as i32;
+    let mean = total / len;
+    input
+        .iter()
+        .map(|x| (x - mean).abs())
+        .map(|x| (x * (x + 1) / 2))
+        .sum()
+}
