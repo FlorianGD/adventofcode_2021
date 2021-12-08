@@ -1,7 +1,6 @@
-use itertools::Itertools;
 use lazy_static::lazy_static;
 use regex::Regex;
-use std::collections::{HashMap, HashSet};
+use std::collections::HashSet;
 
 type Input = [String; 10];
 type Output = [String; 4];
@@ -43,34 +42,93 @@ pub fn part1(matches: &[(Input, Output)]) -> u32 {
     count
 }
 
-fn identify_digits(digits: &Input) -> HashMap<String, u8> {
-    let mut known: HashMap<String, u8> = HashMap::new();
-
+fn identify_digits(digits: &Input) -> [HashSet<char>; 10] {
+    let mut number_to_pattern: [HashSet<char>; 10] = Default::default();
     // 6, 9 and 0 have 6 segments
-    let mut sixes: Vec<String> = Vec::new();
+    let mut sixes: Vec<HashSet<char>> = Vec::new();
     // 2, 3 and 5 have 5 segments
-    let mut fives: Vec<String> = Vec::new();
+    let mut fives: Vec<HashSet<char>> = Vec::new();
 
     for d in digits {
         let len = d.len();
         if len == 7 {
-            known.insert(d.chars().sorted().collect(), 8);
+            number_to_pattern[8] = d.chars().collect();
         } else if len == 4 {
-            known.insert(d.chars().sorted().collect(), 4);
+            number_to_pattern[4] = d.chars().collect();
         } else if len == 3 {
-            known.insert(d.chars().sorted().collect(), 7);
+            number_to_pattern[7] = d.chars().collect();
         } else if len == 2 {
-            known.insert(d.chars().sorted().collect(), 1);
+            number_to_pattern[1] = d.chars().collect();
         } else if len == 6 {
-            sixes.push(d.chars().sorted().collect());
+            sixes.push(d.chars().collect());
         } else if len == 5 {
-            fives.push(d.chars().sorted().collect());
+            fives.push(d.chars().collect());
         }
     }
-    known
+    // sixes : 6, 9 and 0
+    // 6 is the only in sixes which does not contain the same segments as 1
+    number_to_pattern[6] = sixes
+        .iter()
+        .filter(|&x| x.intersection(&number_to_pattern[1]).count() == 1)
+        .next()
+        .unwrap()
+        .to_owned();
+    // 9 is the one which has 2 digits difference with 4
+    number_to_pattern[9] = sixes
+        .iter()
+        .filter(|&x| x.difference(&number_to_pattern[4]).count() == 2)
+        .next()
+        .unwrap()
+        .to_owned();
+    // 0 is the remaining one
+    number_to_pattern[0] = sixes
+        .iter()
+        .filter(|&x| x != &number_to_pattern[6] && x != &number_to_pattern[9])
+        .next()
+        .unwrap()
+        .to_owned();
+    // fives
+    // 3 is the only one in fives which contains the same segments as 1
+    number_to_pattern[3] = fives
+        .iter()
+        .filter(|&x| x.intersection(&number_to_pattern[1]).count() == 2)
+        .next()
+        .unwrap()
+        .to_owned();
+    // 2 is the one not in 9
+    number_to_pattern[2] = fives
+        .iter()
+        .filter(|&x| x.difference(&number_to_pattern[9]).count() > 0)
+        .next()
+        .unwrap()
+        .to_owned();
+    // 5 is the one remaining
+    number_to_pattern[5] = fives
+        .iter()
+        .filter(|&x| x != &number_to_pattern[2] && x != &number_to_pattern[3])
+        .next()
+        .unwrap()
+        .to_owned();
+    number_to_pattern
+}
+
+fn decode_digits(patterns: &[HashSet<char>; 10], output: &Output) -> usize {
+    output
+        .iter()
+        .rev()
+        .enumerate()
+        .map(|(i, x)| {
+            let set: HashSet<char> = x.chars().collect();
+            let digit = patterns.iter().position(|x| x == &set).unwrap();
+            digit * 10_usize.pow(i.try_into().unwrap())
+        })
+        .sum()
 }
 
 #[aoc(day8, part2)]
-pub fn part2(matches: &[(Input, Output)]) -> u32 {
-    0
+pub fn part2(matches: &[(Input, Output)]) -> usize {
+    matches
+        .iter()
+        .map(|(input, output)| decode_digits(&identify_digits(input), output))
+        .sum()
 }

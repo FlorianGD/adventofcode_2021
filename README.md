@@ -30,3 +30,4 @@ What I learned:
 - **Day08**
   - Regex with the `regex` crate (along with `lazy_static` to avoid duplicate
     compilation of regexes).
+  - HashSet exists.
