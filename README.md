@@ -25,3 +25,8 @@ What I learned:
 - **Day03**
   - HashMap default value: `hashmap.get(x).unwrap_or(0)`
   - HashMap mutating with default value: `hasmap.entry(w).or_insert(0) += 1`
+- **Day04**
+  - Converting a `Vec` into an array with `try_into().unwrap()`.
+- **Day08**
+  - Regex with the `regex` crate (along with `lazy_static` to avoid duplicate
+    compilation of regexes).
