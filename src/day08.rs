@@ -1,5 +1,7 @@
+use itertools::Itertools;
 use lazy_static::lazy_static;
 use regex::Regex;
+use std::collections::{HashMap, HashSet};
 
 type Input = [String; 10];
 type Output = [String; 4];
@@ -39,4 +41,36 @@ pub fn part1(matches: &[(Input, Output)]) -> u32 {
         }
     }
     count
+}
+
+fn identify_digits(digits: &Input) -> HashMap<String, u8> {
+    let mut known: HashMap<String, u8> = HashMap::new();
+
+    // 6, 9 and 0 have 6 segments
+    let mut sixes: Vec<String> = Vec::new();
+    // 2, 3 and 5 have 5 segments
+    let mut fives: Vec<String> = Vec::new();
+
+    for d in digits {
+        let len = d.len();
+        if len == 7 {
+            known.insert(d.chars().sorted().collect(), 8);
+        } else if len == 4 {
+            known.insert(d.chars().sorted().collect(), 4);
+        } else if len == 3 {
+            known.insert(d.chars().sorted().collect(), 7);
+        } else if len == 2 {
+            known.insert(d.chars().sorted().collect(), 1);
+        } else if len == 6 {
+            sixes.push(d.chars().sorted().collect());
+        } else if len == 5 {
+            fives.push(d.chars().sorted().collect());
+        }
+    }
+    known
+}
+
+#[aoc(day8, part2)]
+pub fn part2(matches: &[(Input, Output)]) -> u32 {
+    0
 }
