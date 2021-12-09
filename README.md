@@ -31,3 +31,6 @@ What I learned:
   - Regex with the `regex` crate (along with `lazy_static` to avoid duplicate
     compilation of regexes).
   - HashSet exists.
+- **Day09**
+  - Mutating a ref in a recursive function (say `fn func(&mut input)`) can be called
+    internally with `fn(input)`, `fn(&mut input)` is not necessary.
