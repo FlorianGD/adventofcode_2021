@@ -34,3 +34,6 @@ What I learned:
 - **Day09**
   - Mutating a ref in a recursive function (say `fn func(&mut input)`) can be called
     internally with `fn(input)`, `fn(&mut input)` is not necessary.
+- **Day10**
+  - When building in release, integer will overflow with no warnings, `u32` was not
+    giving the right answer, `u64` does...
