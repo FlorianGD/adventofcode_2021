@@ -114,3 +114,14 @@ pub fn part1(input: &HashMap<Coord, Fish>) -> u32 {
 
     (0..100).map(|_| step(&mut map)).sum()
 }
+
+#[aoc(day11, part2)]
+pub fn part2(input: &HashMap<Coord, Fish>) -> u32 {
+    let mut map = input.clone();
+    let mut time = 0;
+    while !map.values().all(|f| f.level == 0) {
+        step(&mut map);
+        time += 1;
+    }
+    time
+}
