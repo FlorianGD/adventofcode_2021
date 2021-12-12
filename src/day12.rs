@@ -58,3 +58,52 @@ pub fn part1(adjacent: &HashMap<String, Vec<String>>) -> u32 {
     visited.push("start".to_string());
     visit(visited.clone(), adjacent)
 }
+
+fn can_continue_with_node(visited: &Vec<String>, node: &String) -> bool {
+    if !is_small(node) {
+        return true;
+    }
+    if node == "start" || node == "end" {
+        return false;
+    }
+    let mut count_smalls = HashMap::new();
+    for node in visited {
+        if is_small(node) {
+            *count_smalls.entry(node).or_insert(0) += 1
+        }
+    }
+    match count_smalls.values().max().unwrap() {
+        0 | 1 => true,
+        2 => {
+            if count_smalls.get(node).unwrap_or(&0) == &0 {
+                true
+            } else {
+                false
+            }
+        }
+        _ => unreachable!("Got more than 2 small nodes."),
+    }
+}
+
+fn visit_p2(visited: Vec<String>, adjacent: &HashMap<String, Vec<String>>) -> u32 {
+    let current = visited.last().unwrap();
+    let possibles = &adjacent[current];
+    let mut count = 0;
+    for possible in possibles {
+        if possible == "end" {
+            count += 1;
+        } else if can_continue_with_node(&visited, possible) {
+            let mut next = visited.clone();
+            next.push(possible.clone());
+            count += visit_p2(next, adjacent);
+        }
+    }
+    count
+}
+
+#[aoc(day12, part2)]
+pub fn part2(adjacent: &HashMap<String, Vec<String>>) -> u32 {
+    let mut visited = Vec::new();
+    visited.push("start".to_string());
+    visit_p2(visited.clone(), adjacent)
+}
