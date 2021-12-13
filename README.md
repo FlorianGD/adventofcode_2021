@@ -37,3 +37,5 @@ What I learned:
 - **Day10**
   - When building in release, integer will overflow with no warnings, `u32` was not
     giving the right answer, `u64` does...
+- **Day11**
+  - You can use `get_mut` on an `HashMap` to get a mutable reference.
