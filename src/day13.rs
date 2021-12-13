@@ -54,7 +54,6 @@ pub fn parse_input(input: &str) -> (HashSet<Coord>, Vec<(Axis, u32)>) {
         .map(|l| l.split_once("=").unwrap())
         .map(|(a, b)| (a.parse().unwrap(), b.parse().unwrap()))
         .collect();
-    println!("{:?}", folds);
     (dots, folds)
 }
 
@@ -97,3 +96,23 @@ pub fn part1((dots, folds): &(HashSet<Coord>, Vec<(Axis, u32)>)) -> usize {
     fold(dots, first_fold).len()
 }
 
+#[aoc(day13, part2)]
+pub fn part2((dots, folds): &(HashSet<Coord>, Vec<(Axis, u32)>)) -> u32 {
+    let mut new_dots = dots.clone();
+    for instruction in folds {
+        new_dots = fold(&new_dots, instruction);
+    }
+    let x_max = *new_dots.iter().map(|(x, _y)| x).max().unwrap();
+    let y_max = *new_dots.iter().map(|(_x, y)| y).max().unwrap();
+    for y in 0..=y_max {
+        for x in 0..=x_max {
+            match new_dots.get(&(x, y)) {
+                Some(_) => print!("█"),
+                None => print!(" "),
+            }
+        }
+        println!("");
+    }
+
+    0
+}
