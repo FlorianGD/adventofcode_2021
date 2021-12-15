@@ -77,3 +77,51 @@ pub fn part1(coords: &HashMap<Coord, u32>) -> u32 {
     .unwrap();
     cost
 }
+
+fn expand_grid(coords: &HashMap<Coord, u32>, n: isize) -> HashMap<Coord, u32> {
+    let mut new_coords = coords.clone();
+    let x_max = coords.keys().map(|c| c.0).max().unwrap();
+    let y_max = coords.keys().map(|c| c.1).max().unwrap();
+
+    // expand on x first
+    coords.iter().for_each(|(&(i, j), &v)| {
+        for k in 1..n {
+            let new_value: u32 = (v + k as u32 - 1) % 9 + 1;
+            let new_x = (x_max + 1) * k + i;
+            new_coords.insert((new_x, j), new_value);
+        }
+    });
+
+    let mut final_coords = new_coords.clone();
+    // expand on y now
+    new_coords.iter().for_each(|(&(i, j), &v)| {
+        for k in 1..n {
+            let new_value: u32 = (v + k as u32 - 1) % 9 + 1;
+            final_coords.insert((i, (y_max + 1) * k + j), new_value);
+        }
+    });
+
+    final_coords
+}
+
+#[aoc(day15, part2)]
+pub fn part2(coords: &HashMap<Coord, u32>) -> u32 {
+    let expanded_coords = expand_grid(coords, 5);
+
+    let x_max = expanded_coords.keys().map(|c| c.0).max().unwrap();
+    let y_max = expanded_coords.keys().map(|c| c.1).max().unwrap();
+
+    let graph = build_graph(&expanded_coords);
+    let origin = (0, 0);
+    let dest = (x_max, y_max);
+
+    let (cost, _path) = astar(
+        &graph,
+        origin,
+        |finish| finish == dest,
+        |(_from, _to, &weight)| weight,
+        |_| 0,
+    )
+    .unwrap();
+    cost
+}
