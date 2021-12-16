@@ -1,3 +1,5 @@
+use itertools::Itertools;
+
 fn parse_hex(hex: &str) -> String {
     hex.chars()
         .map(|c| c.to_digit(16).unwrap())
@@ -119,6 +121,70 @@ pub fn part1(input: &str) -> usize {
         .lines()
         .map(|hex| parse(&parse_hex(hex)))
         .map(|p| sum_versions(&p))
+        .sum()
+}
+
+fn compute_value(p: &Packet) -> usize {
+    match p.type_id {
+        Type::Literal => p.value.unwrap(),
+        Type::Operator(0) => p.packets.as_ref().unwrap().iter().map(compute_value).sum(),
+        Type::Operator(1) => p
+            .packets
+            .as_ref()
+            .unwrap()
+            .iter()
+            .map(compute_value)
+            .product(),
+        Type::Operator(2) => p
+            .packets
+            .as_ref()
+            .unwrap()
+            .iter()
+            .map(compute_value)
+            .min()
+            .unwrap(),
+        Type::Operator(3) => p
+            .packets
+            .as_ref()
+            .unwrap()
+            .iter()
+            .map(compute_value)
+            .max()
+            .unwrap(),
+        Type::Operator(5) => {
+            let (p1, p2) = p.packets.as_ref().unwrap().iter().next_tuple().unwrap();
+            if compute_value(p1) > compute_value(p2) {
+                1
+            } else {
+                0
+            }
+        }
+        Type::Operator(6) => {
+            let (p1, p2) = p.packets.as_ref().unwrap().iter().next_tuple().unwrap();
+            if compute_value(p1) < compute_value(p2) {
+                1
+            } else {
+                0
+            }
+        }
+        Type::Operator(7) => {
+            let (p1, p2) = p.packets.as_ref().unwrap().iter().next_tuple().unwrap();
+            if compute_value(p1) == compute_value(p2) {
+                1
+            } else {
+                0
+            }
+        }
+        _ => unreachable!(),
+    }
+}
+
+#[aoc(day16, part2)]
+pub fn part2(input: &str) -> usize {
+    input
+        .lines()
+        .map(|hex| parse(&parse_hex(hex)))
+        .map(|p| compute_value(&p))
         .sum()
 }
 
@@ -260,5 +326,27 @@ mod tests {
         assert_eq!(sum_versions(&p), 23);
         let p = parse(&parse_hex("A0016C880162017C3686B18A3D4780"));
         assert_eq!(sum_versions(&p), 31);
+    }
+
+    #[test]
+    fn test_compute_value() {
+        let p = parse(&parse_hex("D2FE28"));
+        assert_eq!(compute_value(&p), 2021);
+        let p = parse(&parse_hex("C200B40A82"));
+        assert_eq!(compute_value(&p), 3);
+        let p = parse(&parse_hex("04005AC33890"));
+        assert_eq!(compute_value(&p), 54);
+        let p = parse(&parse_hex("880086C3E88112"));
+        assert_eq!(compute_value(&p), 7);
+        let p = parse(&parse_hex("CE00C43D881120"));
+        assert_eq!(compute_value(&p), 9);
+        let p = parse(&parse_hex("D8005AC2A8F0"));
+        assert_eq!(compute_value(&p), 1);
+        let p = parse(&parse_hex("F600BC2D8F"));
+        assert_eq!(compute_value(&p), 0);
+        let p = parse(&parse_hex("9C005AC2F8F0"));
+        assert_eq!(compute_value(&p), 0);
+        let p = parse(&parse_hex("9C0141080250320F1802104A08"));
+        assert_eq!(compute_value(&p), 1);
     }
 }
