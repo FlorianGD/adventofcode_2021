@@ -14,16 +14,13 @@ pub fn parse_input(input: &str) -> (HashMap<usize, bool>, HashMap<Coord, bool>) 
     let enh = input.lines().next().unwrap();
     let mut dict = HashMap::new();
     for (i, c) in enh.chars().enumerate() {
-        dict.insert(i, if c == '#' { true } else { false });
+        dict.insert(i, c == '#');
     }
 
     let mut coords = HashMap::new();
     for (i, line) in input.lines().skip(2).enumerate() {
         for (j, c) in line.chars().enumerate() {
-            coords.insert(
-                (i as isize, j as isize),
-                if c == '#' { true } else { false },
-            );
+            coords.insert((i as isize, j as isize), c == '#');
         }
     }
     (dict, coords)
@@ -53,7 +50,7 @@ fn new_val(c: &Coord, state: &HashMap<Coord, bool>, default: &bool) -> usize {
     let neighbors = get_neighbors(c);
     let mut vec = Vec::new();
     for n in neighbors.iter() {
-        let &val = state.get(&n).unwrap_or(default);
+        let &val = state.get(n).unwrap_or(default);
         vec.push(val);
     }
     compute_val(&vec)
@@ -91,7 +88,7 @@ fn step(
 
     for x in x_min - 1..=x_max + 1 {
         for y in y_min - 1..=y_max + 1 {
-            let val = new_val(&(x, y), coords, &default);
+            let val = new_val(&(x, y), coords, default);
             let new = dict[&val];
             new_state.insert((x, y), new);
             // *new_state.entry((x, y)).or_insert(new) = new;
@@ -106,7 +103,7 @@ pub fn part1((dict, coords): &(HashMap<usize, bool>, HashMap<Coord, bool>)) -> u
     let mut default = &false;
     let mut new_state = coords.clone();
     for _ in 0..2 {
-        new_state = step(dict, &new_state, &default);
+        new_state = step(dict, &new_state, default);
         default = &dict[&compute_val(&[*default; 9])];
         // display(&new_state);
     }
@@ -120,7 +117,7 @@ pub fn part2((dict, coords): &(HashMap<usize, bool>, HashMap<Coord, bool>)) -> u
     let mut default = &false;
     let mut new_state = coords.clone();
     for _ in 0..50 {
-        new_state = step(dict, &new_state, &default);
+        new_state = step(dict, &new_state, default);
         default = &dict[&compute_val(&[*default; 9])];
         // display(&new_state);
     }

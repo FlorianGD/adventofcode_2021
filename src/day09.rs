@@ -63,7 +63,7 @@ pub fn part2(input_matrix: &Matrix) -> u32 {
     let mut basins_sizes = Vec::new();
     // while we have something to explore (i.e. something has a value != 9)
     while matrix.keys().any(|coord| matrix[coord] != 9) {
-        let basin_start = coords.iter().filter(|&x| matrix[x] != 9).next().unwrap();
+        let basin_start = coords.iter().find(|&x| matrix[x] != 9).unwrap();
 
         basins_sizes.push(find_basin_size(&mut matrix, basin_start));
     }

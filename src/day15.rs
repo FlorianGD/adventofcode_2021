@@ -63,7 +63,7 @@ pub fn part1(coords: &HashMap<Coord, u32>) -> u32 {
     let x_max = coords.keys().map(|c| c.0).max().unwrap();
     let y_max = coords.keys().map(|c| c.1).max().unwrap();
 
-    let graph = build_graph(&coords);
+    let graph = build_graph(coords);
     let origin = (0, 0);
     let dest = (x_max, y_max);
 

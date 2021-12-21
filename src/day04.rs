@@ -27,9 +27,9 @@ impl FromStr for Board {
 }
 impl Board {
     pub fn win_in(&self, draws: &[u8]) -> usize {
-        let min_rows = rows_win_in(&self.values, &draws);
+        let min_rows = rows_win_in(&self.values, draws);
         let cols = transpose(&self.values);
-        let min_cols = rows_win_in(&cols, &draws);
+        let min_cols = rows_win_in(&cols, draws);
         min_rows.min(min_cols)
     }
     pub fn score(&self, draws: &[u8]) -> u32 {
@@ -74,7 +74,7 @@ pub fn parse_input(input: &str) -> (Vec<u8>, Vec<Board>) {
         .lines()
         .next()
         .unwrap()
-        .split(",")
+        .split(',')
         .map(|x| x.parse().unwrap())
         .collect();
 
@@ -91,7 +91,7 @@ pub fn part1(input: &(Vec<u8>, Vec<Board>)) -> u32 {
     let (draws, boards) = input;
     let (idx_board, num_steps) = boards
         .iter()
-        .map(|board| board.win_in(&draws))
+        .map(|board| board.win_in(draws))
         .enumerate()
         .min_by_key(|&(_, val)| val)
         .unwrap();
@@ -103,7 +103,7 @@ pub fn part2(input: &(Vec<u8>, Vec<Board>)) -> u32 {
     let (draws, boards) = input;
     let (idx_board, num_steps) = boards
         .iter()
-        .map(|board| board.win_in(&draws))
+        .map(|board| board.win_in(draws))
         .enumerate()
         .max_by_key(|&(_, val)| val)
         .unwrap();

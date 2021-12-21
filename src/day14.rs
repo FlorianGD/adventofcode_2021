@@ -19,7 +19,7 @@ fn step(
 ) -> HashMap<Pair, usize> {
     let mut new_counts = counts.clone();
     for (p, v) in counts {
-        let (p1, p2) = pairs[&p];
+        let (p1, p2) = pairs[p];
         *new_counts.entry(p1).or_insert(0) += v;
         *new_counts.entry(p2).or_insert(0) += v;
         *new_counts.entry(*p).or_insert(0) -= v;

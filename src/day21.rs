@@ -95,7 +95,7 @@ fn plays_dirac(
             }
             plays_dirac(
                 &player,
-                &player2,
+                player2,
                 !p1_plays,
                 time * times,
                 wins,
@@ -111,7 +111,7 @@ fn plays_dirac(
                 continue;
             }
             plays_dirac(
-                &player1,
+                player1,
                 &player,
                 !p1_plays,
                 time * times,

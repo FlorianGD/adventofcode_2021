@@ -69,44 +69,38 @@ fn identify_digits(digits: &Input) -> [HashSet<char>; 10] {
     // 6 is the only in sixes which does not contain the same segments as 1
     number_to_pattern[6] = sixes
         .iter()
-        .filter(|&x| x.intersection(&number_to_pattern[1]).count() == 1)
-        .next()
+        .find(|&x| x.intersection(&number_to_pattern[1]).count() == 1)
         .unwrap()
         .to_owned();
     // 9 is the one which has 2 digits difference with 4
     number_to_pattern[9] = sixes
         .iter()
-        .filter(|&x| x.difference(&number_to_pattern[4]).count() == 2)
-        .next()
+        .find(|&x| x.difference(&number_to_pattern[4]).count() == 2)
         .unwrap()
         .to_owned();
     // 0 is the remaining one
     number_to_pattern[0] = sixes
         .iter()
-        .filter(|&x| x != &number_to_pattern[6] && x != &number_to_pattern[9])
-        .next()
+        .find(|&x| x != &number_to_pattern[6] && x != &number_to_pattern[9])
         .unwrap()
         .to_owned();
     // fives
     // 3 is the only one in fives which contains the same segments as 1
     number_to_pattern[3] = fives
         .iter()
-        .filter(|&x| x.intersection(&number_to_pattern[1]).count() == 2)
-        .next()
+        .find(|&x| x.intersection(&number_to_pattern[1]).count() == 2)
         .unwrap()
         .to_owned();
     // 2 is the one not in 9
     number_to_pattern[2] = fives
         .iter()
-        .filter(|&x| x.difference(&number_to_pattern[9]).count() > 0)
-        .next()
+        .find(|&x| x.difference(&number_to_pattern[9]).count() > 0)
         .unwrap()
         .to_owned();
     // 5 is the one remaining
     number_to_pattern[5] = fives
         .iter()
-        .filter(|&x| x != &number_to_pattern[2] && x != &number_to_pattern[3])
-        .next()
+        .find(|&x| x != &number_to_pattern[2] && x != &number_to_pattern[3])
         .unwrap()
         .to_owned();
     number_to_pattern

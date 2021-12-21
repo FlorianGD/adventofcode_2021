@@ -36,7 +36,7 @@ fn parse_literal(values: &str) -> (usize, usize) {
         let slice = &values[idx..idx + 5];
         total.extend(slice.chars().skip(1));
         idx += 5;
-        if slice.chars().next().unwrap() == '0' {
+        if slice.starts_with('0') {
             break;
         }
     }

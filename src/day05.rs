@@ -33,7 +33,7 @@ pub fn parse_input(input: &str) -> Vec<(Point, Point)> {
 }
 
 #[aoc(day5, part1)]
-pub fn part1(input: &Vec<(Point, Point)>) -> usize {
+pub fn part1(input: &[(Point, Point)]) -> usize {
     let mut map = HashMap::new();
     let horizontal_lines: Vec<&(Point, Point)> =
         input.iter().filter(|&(p1, p2)| p1.x == p2.x).collect();
@@ -60,7 +60,7 @@ pub fn part1(input: &Vec<(Point, Point)>) -> usize {
 }
 
 #[aoc(day5, part2)]
-pub fn part2(input: &Vec<(Point, Point)>) -> usize {
+pub fn part2(input: &[(Point, Point)]) -> usize {
     let mut map = HashMap::new();
     let horizontal_lines: Vec<&(Point, Point)> =
         input.iter().filter(|&(p1, p2)| p1.x == p2.x).collect();
@@ -97,7 +97,7 @@ pub fn part2(input: &Vec<(Point, Point)>) -> usize {
         let mut y = origin.y;
         for x in x_min..=x_max {
             *map.entry((x, y)).or_insert(0) += 1;
-            y = y + y_step;
+            y += y_step;
         }
     }
     map.into_values().filter(|&v| v >= 2).count()

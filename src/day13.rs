@@ -111,7 +111,7 @@ pub fn part2((dots, folds): &(HashSet<Coord>, Vec<(Axis, u32)>)) -> u32 {
                 None => print!(" "),
             }
         }
-        println!("");
+        println!();
     }
 
     0

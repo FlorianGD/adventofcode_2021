@@ -12,7 +12,7 @@ pub fn parse_input(input: &str) -> Vec<(String, u32)> {
 }
 
 #[aoc(day2, part1)]
-pub fn part1(input: &Vec<(String, u32)>) -> u32 {
+pub fn part1(input: &[(String, u32)]) -> u32 {
     let mut total = 0;
     let mut depth = 0;
     for (x, y) in input {
@@ -26,7 +26,7 @@ pub fn part1(input: &Vec<(String, u32)>) -> u32 {
 }
 
 #[aoc(day2, part2)]
-pub fn part2(input: &Vec<(String, u32)>) -> u32 {
+pub fn part2(input: &[(String, u32)]) -> u32 {
     let mut aim = 0;
     let mut total = 0;
     let mut depth = 0;

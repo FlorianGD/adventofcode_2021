@@ -26,8 +26,8 @@ fn vec_to_int(vals: Vec<u32>) -> u32 {
 }
 
 #[aoc(day3, part1)]
-pub fn part1(input: &Vec<Vec<u32>>) -> u32 {
-    let positions = transpose(input.clone());
+pub fn part1(input: &[Vec<u32>]) -> u32 {
+    let positions = transpose(input.to_owned());
     let counts = get_counts(&positions);
     let maxs = get_maxs(&counts);
 
@@ -39,8 +39,8 @@ pub fn part1(input: &Vec<Vec<u32>>) -> u32 {
 }
 
 #[aoc(day3, part2)]
-pub fn part2(input: &Vec<Vec<u32>>) -> u32 {
-    let mut new_input = input.clone();
+pub fn part2(input: &[Vec<u32>]) -> u32 {
+    let mut new_input = input.to_owned();
     let mut positions;
     let mut idx = 0;
     while new_input.len() > 1 {
@@ -54,7 +54,7 @@ pub fn part2(input: &Vec<Vec<u32>>) -> u32 {
     }
     let max = vec_to_int(new_input[0].clone());
 
-    new_input = input.clone();
+    new_input = input.to_owned();
     idx = 0;
     while new_input.len() > 1 {
         positions = transpose(new_input.clone());

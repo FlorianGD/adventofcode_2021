@@ -18,7 +18,7 @@ pub fn parse_input(input: &str) -> Vec<String> {
 }
 
 #[aoc(day10, part1)]
-pub fn part1(lines: &Vec<String>) -> u32 {
+pub fn part1(lines: &[String]) -> u32 {
     let mut score = 0;
     let points = HashMap::from([(')', 3), (']', 57), ('}', 1197), ('>', 25137)]);
     let closing_to_opening = HashMap::from([(')', '('), (']', '['), ('}', '{'), ('>', '<')]);
@@ -52,7 +52,7 @@ pub fn part1(lines: &Vec<String>) -> u32 {
 }
 
 #[aoc(day10, part2)]
-pub fn part2(lines: &Vec<String>) -> u64 {
+pub fn part2(lines: &[String]) -> u64 {
     let mut scores = Vec::new();
     let closing_to_opening = HashMap::from([(')', '('), (']', '['), ('}', '{'), ('>', '<')]);
     let opening_to_closing = HashMap::from([('(', ')'), ('[', ']'), ('{', '}'), ('<', '>')]);
@@ -88,7 +88,7 @@ pub fn part2(lines: &Vec<String>) -> u64 {
         };
         let mut score = 0;
         for remaining in scope.iter().rev() {
-            let point = points[&opening_to_closing[&remaining]];
+            let point = points[&opening_to_closing[remaining]];
             score *= 5;
             score += point;
         }

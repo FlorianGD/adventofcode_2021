@@ -2,7 +2,7 @@ use std::collections::HashMap;
 
 #[aoc_generator(day6)]
 pub fn input_generator(input: &str) -> HashMap<u32, usize> {
-    let list = input.split(",").map(|x| x.parse().unwrap());
+    let list = input.split(',').map(|x| x.parse().unwrap());
     let mut state = HashMap::new();
     for elem in list {
         *state.entry(elem).or_insert(0) += 1
