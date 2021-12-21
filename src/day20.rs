@@ -59,6 +59,7 @@ fn new_val(c: &Coord, state: &HashMap<Coord, bool>, default: &bool) -> usize {
     compute_val(&vec)
 }
 
+#[allow(dead_code)]
 fn display(state: &HashMap<Coord, bool>) {
     let &x_min = state.keys().map(|(x, _)| x).min().unwrap();
     let &x_max = state.keys().map(|(x, _)| x).max().unwrap();
